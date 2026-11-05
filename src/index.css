@@ -1,0 +1,64 @@
+@import "tailwindcss";
+
+@variant dark (&:where(.dark, .dark *));
+
+@layer base {
+  :root {
+    --accent: #01bbfd;
+    --zoom-blue: #0176fd;
+    --brand-navy: #020f22;
+    --brand-cyan: #01bbfd;
+    --brand-blue: #0176fd;
+    --brand-royal: #003ff8;
+  }
+  body {
+    background-color: #ffffff;
+    color: #020f22;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    letter-spacing: -0.015em;
+    overflow-x: hidden;
+  }
+}
+
+/* SiftX Signature Gradients matched directly to official logo ribbon & pill */
+.siftx-pill-btn {
+  background: linear-gradient(90deg, #01bbfd 0%, #0176fd 100%);
+  color: #ffffff;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.siftx-pill-btn:hover {
+  background: linear-gradient(90deg, #01bbfd 0%, #003ff8 100%);
+  box-shadow: 0 10px 25px -5px rgba(1, 118, 253, 0.45);
+  transform: translateY(-1px);
+}
+
+.siftx-gradient-text {
+  background: linear-gradient(135deg, #01bbfd 0%, #0176fd 50%, #003ff8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Classic Roman Editorial Typography */
+.font-roman {
+  font-family: 'Newsreader', 'Playfair Display', 'Times New Roman', Times, Georgia, serif;
+  letter-spacing: -0.015em;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 40s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}

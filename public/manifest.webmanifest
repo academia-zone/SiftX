@@ -1,0 +1,27 @@
+{
+  "name": "SiftX Workplace - Private Multi-Tool Studio",
+  "short_name": "SiftX Tools",
+  "description": "62 production-ready engines across PDF, Audio AI, Video, Calculators, Image Lab, and Web SEO. 100% private in browser memory.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#020f22",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/favicon-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "192x192 512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

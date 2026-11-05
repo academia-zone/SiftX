@@ -1,0 +1,158 @@
+export interface VoiceRegistryItem {
+  id: string;
+  name: string;
+  title: string;
+  provider: 'edge-tts' | 'gemini' | 'fish-audio';
+  category: 'all' | 'urdu' | 'gemini' | 'fish';
+  providerVoiceId: string;
+  gender: 'Female' | 'Male';
+  supportedLanguages: string[];
+  modelCompatibility: string;
+  badge: string;
+  status: 'active';
+  desc: string;
+  sampleText: string;
+  avatarColor: string;
+  avatarInitials: string;
+}
+
+export const STRICT_VOICE_REGISTRY: Record<string, VoiceRegistryItem> = {
+  uzma: {
+    id: 'uzma',
+    name: 'Uzma',
+    title: 'Urdu • Natural Female',
+    provider: 'edge-tts',
+    category: 'urdu',
+    providerVoiceId: 'ur-PK-UzmaNeural',
+    gender: 'Female',
+    supportedLanguages: ['ur', 'ur-PK', 'en'],
+    modelCompatibility: 'Microsoft Neural (Edge-TTS)',
+    badge: 'Urdu (PK)',
+    status: 'active',
+    desc: 'Authentic Pakistani female neural voice with natural pacing and crystal clarity.',
+    sampleText: 'السلام علیکم! میں عظمیٰ ہوں۔ سیفٹ ایکس آڈیو اسٹوڈیو میں آپ کا استقبال ہے۔',
+    avatarColor: 'from-pink-500 to-rose-500',
+    avatarInitials: 'UZ',
+  },
+  saad: {
+    id: 'saad',
+    name: 'Saad',
+    title: 'Urdu • Dignified Male',
+    provider: 'edge-tts',
+    category: 'urdu',
+    providerVoiceId: 'ur-PK-AsadNeural',
+    gender: 'Male',
+    supportedLanguages: ['ur', 'ur-PK', 'en'],
+    modelCompatibility: 'Microsoft Neural (Edge-TTS)',
+    badge: 'Urdu (PK)',
+    status: 'active',
+    desc: 'Dignified, deep Pakistani male pronunciation with authoritative tone.',
+    sampleText: 'السلام علیکم! میں سعد ہوں۔ آپ کی تحریر کو باوقار انداز میں سنانے کے لیے حاضر ہوں۔',
+    avatarColor: 'from-indigo-500 to-blue-600',
+    avatarInitials: 'SD',
+  },
+  aoede: {
+    id: 'aoede',
+    name: 'Aoede',
+    title: 'Gemini • Warm Female',
+    provider: 'gemini',
+    category: 'gemini',
+    providerVoiceId: 'Aoede',
+    gender: 'Female',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Google Gemini 3.1 Flash TTS',
+    badge: 'Gemini 3.1',
+    status: 'active',
+    desc: 'Warm and melodious female voice powered by Google DeepMind multimodal models.',
+    sampleText: 'Welcome to SiftX Audio Studio. Experience natural conversational synthesis.',
+    avatarColor: 'from-violet-500 to-purple-600',
+    avatarInitials: 'AO',
+  },
+  charon: {
+    id: 'charon',
+    name: 'Charon',
+    title: 'Gemini • Cinematic Male',
+    provider: 'gemini',
+    category: 'gemini',
+    providerVoiceId: 'Charon',
+    gender: 'Male',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Google Gemini 3.1 Flash TTS',
+    badge: 'Gemini 3.1',
+    status: 'active',
+    desc: 'Authoritative, deep cinematic male voice for corporate presentations and media.',
+    sampleText: 'Power and precision. Built for enterprise audio workflows.',
+    avatarColor: 'from-slate-700 to-zinc-900',
+    avatarInitials: 'CH',
+  },
+  puck: {
+    id: 'puck',
+    name: 'Puck',
+    title: 'Gemini • Lively Assistant',
+    provider: 'gemini',
+    category: 'gemini',
+    providerVoiceId: 'Puck',
+    gender: 'Male',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Google Gemini 3.1 Flash TTS',
+    badge: 'Gemini 3.1',
+    status: 'active',
+    desc: 'Energetic, friendly, and fast-paced live assistant voice.',
+    sampleText: 'Hey there! Ready to transform your creative scripts into lifelike voiceovers?',
+    avatarColor: 'from-amber-500 to-orange-500',
+    avatarInitials: 'PK',
+  },
+  fenrir: {
+    id: 'fenrir',
+    name: 'Fenrir',
+    title: 'Gemini • Bold Dramatic',
+    provider: 'gemini',
+    category: 'gemini',
+    providerVoiceId: 'Fenrir',
+    gender: 'Male',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Google Gemini 3.1 Flash TTS',
+    badge: 'Gemini 3.1',
+    status: 'active',
+    desc: 'Bold, resonant dramatic voice ideal for trailers and high-impact media.',
+    sampleText: 'In a world of constant motion, clarity defines the future.',
+    avatarColor: 'from-red-600 to-rose-700',
+    avatarInitials: 'FR',
+  },
+  kore: {
+    id: 'kore',
+    name: 'Kore',
+    title: 'Gemini • Crisp Analytical',
+    provider: 'gemini',
+    category: 'gemini',
+    providerVoiceId: 'Kore',
+    gender: 'Female',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Google Gemini 3.1 Flash TTS',
+    badge: 'Gemini 3.1',
+    status: 'active',
+    desc: 'Crisp, articulate and analytical tone for guides, tutorials, and audiobooks.',
+    sampleText: 'All computational systems are operational and performing within optimal parameters.',
+    avatarColor: 'from-teal-500 to-emerald-600',
+    avatarInitials: 'KR',
+  },
+  fish: {
+    id: 'fish',
+    name: 'Nexus Fish',
+    title: 'Fish Audio • Expressive',
+    provider: 'fish-audio',
+    category: 'fish',
+    providerVoiceId: '933563129e564b19a115bedd57b7406a',
+    gender: 'Female',
+    supportedLanguages: ['en', 'ur', 'multilingual'],
+    modelCompatibility: 'Fish Audio S2.1 Pro Free',
+    badge: 'Fish S2.1',
+    status: 'active',
+    desc: 'State-of-the-art expressive neural synthesis with natural prosody and emotion.',
+    sampleText: 'Hi there! This ultra expressive voice was generated via Fish Audio model.',
+    avatarColor: 'from-cyan-500 to-blue-600',
+    avatarInitials: 'NF',
+  },
+};
+
+export const STRICT_VOICE_LIST: VoiceRegistryItem[] = Object.values(STRICT_VOICE_REGISTRY);
