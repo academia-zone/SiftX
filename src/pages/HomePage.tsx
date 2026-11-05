@@ -14,7 +14,6 @@ import {
   Star, 
   Zap,
 } from 'lucide-react';
-import { FramesBackground } from '../components/FramesBackground';
 
 // Interactive Scroll-Driven Feature Story (Animates on scroll down, rewinds on scroll up)
 interface ScrollStoryProps {
@@ -387,15 +386,19 @@ export const HomePage: React.FC<HomePageProps> = ({
               </div>
             </div>
 
-            {/* Video Canvas Container playing smoothly edge-to-edge */}
+            {/* Native High-Performance HTML5 Video Stream */}
             <div className="relative aspect-video w-full rounded-2xl bg-slate-950 overflow-hidden flex items-center justify-center border border-slate-100 shadow-inner group">
-              <FramesBackground 
-                totalFrames={80} 
-                framePrefix="frame_" 
-                frameExtension="png" 
-                fps={10}
-                className="w-full h-full"
-              />
+              <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                poster="/hero-poster.png"
+                className="w-full h-full object-cover block"
+              >
+                <source src="/hero-preview.webm" type="video/webm" />
+                <source src="/hero-preview.mp4" type="video/mp4" />
+              </video>
             </div>
 
           </div>
