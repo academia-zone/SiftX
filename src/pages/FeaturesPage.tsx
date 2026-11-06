@@ -2,7 +2,7 @@ import React from 'react';
 import { 
   Zap, 
   ShieldCheck, 
-  Laptop, 
+  Smartphone, 
   Cpu, 
   DownloadCloud, 
   Layers, 
@@ -13,28 +13,28 @@ export const FeaturesPage: React.FC = () => {
   const features = [
     {
       icon: Zap,
-      title: 'Instant Execution',
-      desc: 'No queue waiting, no artificial upload delays. Tools compute calculations and process files directly using your device hardware.'
+      title: 'Instant In-Browser Speed',
+      desc: 'No queue waiting, no artificial upload delays. Calculations and file operations process quickly using modern browser APIs.'
     },
     {
       icon: ShieldCheck,
-      title: 'Guaranteed Client-Side Privacy',
-      desc: 'Whether editing contracts, calculating taxes, or compressing photos, sensitive files remain 100% on your local machine.'
+      title: 'Privacy-First Architecture',
+      desc: 'Document manipulation, calculators, and image tools run client-side in your browser memory, keeping your documents private.'
     },
     {
-      icon: Laptop,
-      title: 'Cross-Platform Web & Desktop',
-      desc: 'Use in your favorite web browser or download the standalone executable desktop app for Windows and macOS with offline capabilities.'
+      icon: Smartphone,
+      title: 'Cross-Device & Mobile Ready',
+      desc: 'Use directly in your browser on desktop, tablet, or smartphone with responsive UI and zero mandatory software installation.'
     },
     {
       icon: Cpu,
-      title: 'High-Performance WebAssembly (WASM)',
-      desc: 'PDF editing, OCR text recognition, and media processing powered by client-side WebAssembly for near-native desktop speeds.'
+      title: 'Client-Side Hardware Acceleration',
+      desc: 'PDF handling, OCR text extraction, Canvas and WebGL image filters run efficiently with in-memory execution.'
     },
     {
       icon: Layers,
-      title: 'Modular Plugin Architecture',
-      desc: 'Every tool operates independently in its own folder. Adding new features or customizing specific tools never affects the rest of the studio.'
+      title: 'Modular Studio Ecosystem',
+      desc: '6 specialized studios (PDF, Audio, Calculators, Image, Video, Developer) give you dedicated, focused workspaces for every task.'
     },
     {
       icon: DownloadCloud,
@@ -48,14 +48,14 @@ export const FeaturesPage: React.FC = () => {
       
       {/* Header */}
       <div className="text-center space-y-4 max-w-2xl mx-auto">
-        <span className="text-xs font-black uppercase tracking-wider text-black bg-[#01bbfd]/20 px-3 py-1 rounded-full border border-[#01bbfd]">
+        <span className="text-xs font-black uppercase tracking-wider text-cyan-600 dark:text-cyan-400 bg-[#01bbfd]/10 px-3 py-1 rounded-full border border-[#01bbfd]/30">
           Platform Capabilities
         </span>
-        <h1 className="text-3xl sm:text-5xl font-black text-black tracking-tight">
+        <h1 className="text-3xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
           Engineered for Speed, Privacy & Simplicity
         </h1>
-        <p className="text-sm sm:text-base text-black/70 leading-relaxed">
-          Discover the technology and architectural principles that make Tool Studio the most reliable daily utility platform.
+        <p className="text-sm sm:text-base text-slate-600 dark:text-slate-300 leading-relaxed">
+          Discover the technology and architectural principles that make SiftX a reliable daily utility platform.
         </p>
       </div>
 
@@ -66,13 +66,13 @@ export const FeaturesPage: React.FC = () => {
           return (
             <div 
               key={idx}
-              className="p-8 rounded-2xl bg-white border border-black/10 hover:border-[#01bbfd] hover:shadow-md transition-all space-y-4"
+              className="p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-[#01bbfd] dark:hover:border-[#01bbfd] hover:shadow-md transition-all space-y-4"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#01bbfd]/20 border border-[#01bbfd] flex items-center justify-center text-black">
-                <Icon className="w-6 h-6 text-black" />
+              <div className="w-12 h-12 rounded-xl bg-[#01bbfd]/20 border border-[#01bbfd] flex items-center justify-center text-cyan-600 dark:text-cyan-400">
+                <Icon className="w-6 h-6" />
               </div>
-              <h3 className="text-lg font-black text-black">{f.title}</h3>
-              <p className="text-xs text-black/70 leading-relaxed">
+              <h3 className="text-lg font-black text-slate-900 dark:text-white">{f.title}</h3>
+              <p className="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                 {f.desc}
               </p>
             </div>
@@ -81,27 +81,27 @@ export const FeaturesPage: React.FC = () => {
       </div>
 
       {/* High-Level Comparison Banner */}
-      <div className="p-8 sm:p-10 rounded-3xl bg-black text-white space-y-6">
+      <div className="p-8 sm:p-10 rounded-3xl bg-slate-950 text-white space-y-6 border border-slate-800">
         <div className="flex items-center gap-3">
           <Sparkles className="w-6 h-6 text-[#01bbfd]" />
-          <h3 className="text-xl sm:text-2xl font-black text-white">Traditional Web Tools vs. Tool Studio</h3>
+          <h3 className="text-xl sm:text-2xl font-black text-white">Traditional Web Tools vs. SiftX</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-white/80">
           <div className="p-4 rounded-xl bg-white/5 border border-white/10 space-y-2">
-            <h4 className="font-bold text-white text-sm">❌ Traditional Online Tools:</h4>
+            <h4 className="font-bold text-rose-400 text-sm">❌ Traditional Online Tools:</h4>
             <p>• Restrict free usage to 2–3 files per day.</p>
-            <p>• Upload your private documents to unknown cloud servers.</p>
-            <p>• Bombard you with popups, timers, and mandatory signups.</p>
-            <p>• Stop working without an active internet connection.</p>
+            <p>• Upload your private documents to third-party ad networks.</p>
+            <p>• Bombard you with popups, countdown timers, and mandatory signups.</p>
+            <p>• Slow server queues during peak hours.</p>
           </div>
 
-          <div className="p-4 rounded-xl bg-[#01bbfd]/10 border border-[#01bbfd] space-y-2 text-white">
-            <h4 className="font-bold text-[#01bbfd] text-sm">✅ Tool Studio Guarantee:</h4>
-            <p>• Unlimited usage without any countdowns or artificial limits.</p>
-            <p>• 100% client-side privacy: files never leave your machine.</p>
-            <p>• Clean, ad-free interface designed solely for productivity.</p>
-            <p>• Available as an offline desktop application.</p>
+          <div className="p-4 rounded-xl bg-[#01bbfd]/10 border border-[#01bbfd]/30 space-y-2 text-white">
+            <h4 className="font-bold text-[#01bbfd] text-sm">✅ SiftX Guarantee:</h4>
+            <p>• Unlimited everyday usage without artificial paywalls.</p>
+            <p>• Private local processing for client-side document and image engines.</p>
+            <p>• Clean, uncluttered interface designed purely for productivity.</p>
+            <p>• Lightweight offline caching support via Service Worker.</p>
           </div>
         </div>
       </div>

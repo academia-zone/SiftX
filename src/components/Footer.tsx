@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { 
   Laptop, 
   ShieldCheck, 
@@ -17,6 +17,9 @@ interface FooterProps {
 }
 
 export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
+  const [emailInput, setEmailInput] = useState('');
+  const [subscribed, setSubscribed] = useState(false);
+
   return (
     <footer className="mt-28 border-t border-slate-200 bg-[#020f22] text-white">
       
@@ -36,14 +39,31 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
           </div>
 
           <div className="flex w-full md:w-auto items-center gap-2 max-w-md">
-            <input 
-              type="email" 
-              placeholder="Enter your email..." 
-              className="px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/40 text-xs focus:outline-none focus:border-[#0176fd] w-full"
-            />
-            <button className="px-5 py-2.5 rounded-full siftx-pill-btn font-extrabold text-xs shrink-0 transition-all cursor-pointer shadow-sm">
-              Subscribe
-            </button>
+            {subscribed ? (
+              <span className="text-xs text-emerald-400 font-bold px-4 py-2 bg-emerald-500/10 rounded-full border border-emerald-500/20">
+                ✓ Thank you for subscribing!
+              </span>
+            ) : (
+              <form 
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (emailInput.trim()) setSubscribed(true);
+                }} 
+                className="flex w-full items-center gap-2"
+              >
+                <input 
+                  type="email" 
+                  required
+                  value={emailInput}
+                  onChange={(e) => setEmailInput(e.target.value)}
+                  placeholder="Enter your email..." 
+                  className="px-4 py-2.5 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/40 text-xs focus:outline-none focus:border-[#0176fd] w-full"
+                />
+                <button type="submit" className="px-5 py-2.5 rounded-full siftx-pill-btn font-extrabold text-xs shrink-0 transition-all cursor-pointer shadow-sm">
+                  Subscribe
+                </button>
+              </form>
+            )}
           </div>
         </div>
       </div>
@@ -66,14 +86,14 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </div>
 
             <p className="text-xs text-white/70 leading-relaxed max-w-sm">
-              The AI-first workplace platform consolidating 62 practical everyday utilities for documents, audio, calculations, imagery, video, and code. Built for complete client-side privacy with zero cloud data retention.
+              The AI-first workplace platform consolidating 50+ practical everyday utilities for documents, audio, calculations, imagery, video, and code. Built for complete client-side privacy with zero cloud data retention.
             </p>
 
             {/* Platform Status */}
             <div className="p-3 rounded-2xl bg-white/5 border border-white/10 space-y-2 max-w-xs">
               <div className="flex items-center gap-2 text-xs font-semibold text-white/90">
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                <span>All 62 Systems Operational</span>
+                <span>All Systems Operational</span>
               </div>
               <p className="text-[10px] text-white/50">
                 Pure client-side WebAssembly. No server dependencies or downtime.
@@ -250,7 +270,7 @@ export const Footer: React.FC<FooterProps> = ({ onNavigate }) => {
             </span>
             <span className="flex items-center gap-1.5 text-white">
               <Laptop className="w-4 h-4 text-[#01bbfd]" />
-              <span>Web & Desktop Native</span>
+              <span>Web & Mobile Ready</span>
             </span>
           </div>
 

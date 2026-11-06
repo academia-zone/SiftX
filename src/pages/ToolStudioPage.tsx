@@ -230,7 +230,7 @@ export const ToolStudioPage: React.FC<ToolStudioPageProps> = ({
               Every tool your workflow needs, in one unified studio
             </h1>
             <p className="text-slate-600 text-base sm:text-xl font-normal leading-relaxed max-w-2xl mx-auto">
-              Consolidate your daily tech stack with 6 specialized studios and 62 production-ready tools. 100% private in browser memory — zero cloud uploads and zero subscriptions.
+              Consolidate your daily tech stack with 6 specialized studios and 50+ production-ready tools. Private in browser memory — zero subscriptions.
             </p>
           </div>
 
@@ -242,7 +242,7 @@ export const ToolStudioPage: React.FC<ToolStudioPageProps> = ({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search across all 62 tools (e.g. PDF, Bill, TTS, JSON)..."
+                placeholder="Search across all 50+ tools (e.g. PDF, Bill, TTS, JSON)..."
                 className="w-full px-3 py-2.5 text-slate-900 text-sm sm:text-base placeholder-slate-400 focus:outline-none bg-transparent font-medium"
               />
               {searchQuery ? (
@@ -265,7 +265,7 @@ export const ToolStudioPage: React.FC<ToolStudioPageProps> = ({
           {/* Category Filter Pills (Zoom Style) */}
           <div className="pt-4 flex flex-wrap items-center justify-center gap-2 max-w-3xl mx-auto">
             {[
-              { id: 'all', label: 'All 62 Tools' },
+              { id: 'all', label: 'All Tools (50+)' },
               { id: 'pdf-tools', label: 'PDF & Documents (12)' },
               { id: 'audio-tools', label: 'Voice AI (4)' },
               { id: 'calculators', label: 'Calculators (14)' },
@@ -555,7 +555,7 @@ export const ToolStudioPage: React.FC<ToolStudioPageProps> = ({
               </div>
               <h3 className="text-xl font-extrabold text-[#020f22]">Select Your Utility</h3>
               <p className="text-xs text-slate-600 leading-relaxed font-normal">
-                Choose from 62 purpose-built engines across document manipulation, voice transcription, media optimization, or financial calculations without signing up.
+                Choose from 50+ purpose-built engines across document manipulation, voice transcription, media optimization, or financial calculations without signing up.
               </p>
               <div className="pt-2 flex items-center gap-2 text-xs font-bold text-[#0176fd]">
                 <span>No software install required</span>

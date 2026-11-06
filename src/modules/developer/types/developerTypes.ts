@@ -2,13 +2,24 @@ export type DeveloperCategory =
   | 'website-audit'
   | 'types-and-schemas'
   | 'security-and-env'
-  | 'ai-context';
+  | 'ai-context'
+  | 'formatters'
+  | 'utilities';
 
 export type DeveloperToolId =
   | 'website-auditor'
   | 'type-schema-converter'
   | 'env-doctor'
-  | 'ai-context-optimizer';
+  | 'ai-context-optimizer'
+  | 'json-formatter'
+  | 'base64'
+  | 'uuid-password'
+  | 'regex-tester'
+  | 'jwt-inspector'
+  | 'curl-to-code'
+  | 'git-conflict-resolver'
+  | 'opengraph-previewer'
+  | 'svg-to-react';
 
 export interface DeveloperToolItem {
   id: DeveloperToolId;
@@ -70,5 +81,99 @@ export const DEVELOPER_TOOLS: DeveloperToolItem[] = [
     badge: 'AI-Native',
     icon: 'Sparkles',
     keywords: ['token counter', 'prompt optimizer', 'compress context', 'gpt-4o', 'claude', 'gemini cost']
+  },
+  {
+    id: 'json-formatter',
+    name: 'JSON Formatter & Validator',
+    nameUrdu: 'جے ایس او این فارمیٹر اور ویلیڈیٹر',
+    category: 'formatters',
+    tagline: 'Format, validate, prettify and minify JSON with syntax highlighting',
+    description: 'Format unreadable JSON, spot syntax errors instantly, and minify for production.',
+    badge: 'High Impact',
+    icon: 'Code2',
+    keywords: ['json', 'format', 'minify', 'prettify', 'beautify']
+  },
+  {
+    id: 'base64',
+    name: 'Base64 Encoder & Decoder',
+    nameUrdu: 'بیس 64 انکوڈر اور ڈیکوڈر',
+    category: 'utilities',
+    tagline: 'Encode and decode Base64 strings, binary payloads, and Data URIs',
+    description: 'Fast client-side Base64 conversion with URL-safe format and Data URI generator.',
+    icon: 'Code2',
+    keywords: ['base64', 'encode', 'decode', 'data uri']
+  },
+  {
+    id: 'uuid-password',
+    name: 'UUID & Password Generator',
+    nameUrdu: 'یو یو آئی ڈی اور پاس ورڈ جنریٹر',
+    category: 'utilities',
+    tagline: 'Generate cryptographically secure UUIDs (v4) and high-entropy passwords',
+    description: 'Bulk UUID generation and customizable password strength with zero storage.',
+    badge: 'Security',
+    icon: 'FileCheck',
+    keywords: ['uuid', 'guid', 'password', 'random', 'security']
+  },
+  {
+    id: 'regex-tester',
+    name: 'Regex Tester & Debugger',
+    nameUrdu: 'ریجیکس ٹیسٹر اور ڈیبگر',
+    category: 'utilities',
+    tagline: 'Real-time regular expression testing with match group inspection',
+    description: 'Test regex expressions live against sample text with flag toggles and match counts.',
+    icon: 'Code2',
+    keywords: ['regex', 'regular expression', 'test', 'pattern', 'match']
+  },
+  {
+    id: 'jwt-inspector',
+    name: 'JWT Token Inspector',
+    nameUrdu: 'جے ڈبلیو ٹی ٹوکن انسپکٹر',
+    category: 'security-and-env',
+    tagline: 'Decode, inspect, and verify JSON Web Tokens client-side without leaks',
+    description: 'Inspect JWT header, payload claims, expiration timestamps, and signature status.',
+    badge: 'Security',
+    icon: 'FileCheck',
+    keywords: ['jwt', 'token', 'auth', 'bearer', 'decode']
+  },
+  {
+    id: 'curl-to-code',
+    name: 'cURL to Code Converter',
+    nameUrdu: 'سی یو آر ایل ٹو کوڈ کنورٹر',
+    category: 'utilities',
+    tagline: 'Convert cURL terminal commands into JavaScript, Python, and Go request snippets',
+    description: 'Paste any curl command to generate fetch, axios, requests, or native HTTP code.',
+    icon: 'Code2',
+    keywords: ['curl', 'fetch', 'axios', 'python requests', 'http']
+  },
+  {
+    id: 'git-conflict-resolver',
+    name: 'Git Conflict 3-Way Merger',
+    nameUrdu: 'گٹ کنفلکٹ ریزولور',
+    category: 'utilities',
+    tagline: 'Resolve merge conflicts with interactive split-diff and one-click resolution',
+    description: 'Paste conflicted git files, pick ours or theirs, and copy clean output.',
+    icon: 'Boxes',
+    keywords: ['git', 'merge', 'conflict', 'diff']
+  },
+  {
+    id: 'opengraph-previewer',
+    name: 'OpenGraph & Social Meta Previewer',
+    nameUrdu: 'اوپن گراف اور سوشل میڈیا پریویو',
+    category: 'website-audit',
+    tagline: 'Preview how your links appear on Twitter/X, LinkedIn, Facebook, and Slack',
+    description: 'Test og:title, og:image, and Twitter cards to ensure perfect social sharing.',
+    badge: 'High Impact',
+    icon: 'Globe',
+    keywords: ['opengraph', 'og', 'twitter card', 'social preview', 'meta tags']
+  },
+  {
+    id: 'svg-to-react',
+    name: 'SVG to React JSX Component',
+    nameUrdu: 'ایس وی جی ٹو ری ایکٹ کنورٹر',
+    category: 'types-and-schemas',
+    tagline: 'Clean and transform raw SVG code into production-ready React TSX/JSX components',
+    description: 'Removes hardcoded dimensions, cleans IDs, camelCases attributes, and exports components.',
+    icon: 'Boxes',
+    keywords: ['svg', 'react', 'jsx', 'tsx', 'icon']
   }
 ];

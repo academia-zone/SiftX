@@ -54,6 +54,7 @@ export const LogoRemoverTool: React.FC = () => {
   const maskCanvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawingRef = useRef<boolean>(false);
   const startPosRef = useRef<{ x: number; y: number } | null>(null);
+  const lastPosRef = useRef<{ x: number; y: number } | null>(null);
 
   // Video Refs
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -170,11 +171,24 @@ export const LogoRemoverTool: React.FC = () => {
     };
   }, []);
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const getTouchCoords = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    const maskCanvas = maskCanvasRef.current;
+    if (!maskCanvas || e.touches.length === 0) return { x: 0, y: 0 };
+    const touch = e.touches[0];
+    const rect = maskCanvas.getBoundingClientRect();
+    const scaleX = maskCanvas.width / rect.width;
+    const scaleY = maskCanvas.height / rect.height;
+    return {
+      x: (touch.clientX - rect.left) * scaleX,
+      y: (touch.clientY - rect.top) * scaleY,
+    };
+  }, []);
+
+  const startDrawing = (coords: { x: number; y: number }) => {
     if (!imageSrc || isProcessing) return;
     isDrawingRef.current = true;
-    const coords = getCanvasCoords(e);
     startPosRef.current = coords;
+    lastPosRef.current = coords;
 
     const maskCanvas = maskCanvasRef.current;
     const ctx = maskCanvas?.getContext('2d');
@@ -183,50 +197,88 @@ export const LogoRemoverTool: React.FC = () => {
     if (toolMode === 'brush') {
       ctx.beginPath();
       ctx.arc(coords.x, coords.y, brushSize / 2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(239, 68, 68, 0.75)';
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
       ctx.fill();
       setHasMask(true);
     }
   };
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const continueDrawing = (coords: { x: number; y: number }) => {
     if (!isDrawingRef.current || !imageSrc || isProcessing) return;
-    const coords = getCanvasCoords(e);
     const maskCanvas = maskCanvasRef.current;
     const ctx = maskCanvas?.getContext('2d');
     if (!ctx) return;
 
     if (toolMode === 'brush') {
+      if (lastPosRef.current) {
+        ctx.strokeStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
+        ctx.lineWidth = brushSize;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.beginPath();
+        ctx.moveTo(lastPosRef.current.x, lastPosRef.current.y);
+        ctx.lineTo(coords.x, coords.y);
+        ctx.stroke();
+      }
       ctx.beginPath();
       ctx.arc(coords.x, coords.y, brushSize / 2, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(239, 68, 68, 0.75)';
+      ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
       ctx.fill();
+      lastPosRef.current = coords;
       setHasMask(true);
     }
   };
 
-  const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const stopDrawing = (endCoords?: { x: number; y: number }) => {
     if (!isDrawingRef.current) return;
     isDrawingRef.current = false;
 
-    if (toolMode === 'rectangle' && startPosRef.current) {
-      const endCoords = getCanvasCoords(e);
+    if (toolMode === 'rectangle' && startPosRef.current && endCoords) {
       const maskCanvas = maskCanvasRef.current;
       const ctx = maskCanvas?.getContext('2d');
-      if (!ctx) return;
+      if (ctx) {
+        const x = Math.min(startPosRef.current.x, endCoords.x);
+        const y = Math.min(startPosRef.current.y, endCoords.y);
+        const w = Math.abs(endCoords.x - startPosRef.current.x);
+        const h = Math.abs(endCoords.y - startPosRef.current.y);
 
-      const x = Math.min(startPosRef.current.x, endCoords.x);
-      const y = Math.min(startPosRef.current.y, endCoords.y);
-      const w = Math.abs(endCoords.x - startPosRef.current.x);
-      const h = Math.abs(endCoords.y - startPosRef.current.y);
-
-      if (w > 2 && h > 2) {
-        ctx.fillStyle = 'rgba(239, 68, 68, 0.75)';
-        ctx.fillRect(x, y, w, h);
-        setHasMask(true);
+        if (w > 2 && h > 2) {
+          ctx.fillStyle = 'rgba(239, 68, 68, 0.85)';
+          ctx.fillRect(x, y, w, h);
+          setHasMask(true);
+        }
       }
     }
     startPosRef.current = null;
+    lastPosRef.current = null;
+  };
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    startDrawing(getCanvasCoords(e));
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    continueDrawing(getCanvasCoords(e));
+  };
+
+  const handleMouseUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    stopDrawing(getCanvasCoords(e));
+  };
+
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    startDrawing(getTouchCoords(e));
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    continueDrawing(getTouchCoords(e));
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    stopDrawing();
   };
 
   const handleClearMask = () => {
@@ -381,7 +433,18 @@ export const LogoRemoverTool: React.FC = () => {
     await video.play();
     setIsPlaying(true);
 
-    const stream = canvas.captureStream(30);
+    let stream: MediaStream = canvas.captureStream(30);
+    try {
+      const videoStream = (video as any).captureStream 
+        ? (video as any).captureStream() 
+        : ((video as any).mozCaptureStream ? (video as any).mozCaptureStream() : null);
+      if (videoStream) {
+        const audioTracks = videoStream.getAudioTracks();
+        if (audioTracks.length > 0) {
+          stream = new MediaStream([...stream.getVideoTracks(), ...audioTracks]);
+        }
+      }
+    } catch {}
     const mimeType = MediaRecorder.isTypeSupported('video/webm;codecs=vp9')
       ? 'video/webm;codecs=vp9'
       : 'video/webm';
@@ -595,7 +658,10 @@ export const LogoRemoverTool: React.FC = () => {
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
-                    className="absolute inset-0 cursor-crosshair"
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    className="absolute inset-0 w-full h-full cursor-crosshair touch-none"
                     style={{ display: showOriginal ? 'none' : 'block' }}
                   />
                 </div>

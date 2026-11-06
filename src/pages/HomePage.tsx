@@ -11,7 +11,6 @@ import {
   ShieldCheck, 
   ChevronRight,
   ChevronDown, 
-  Star, 
   Zap,
 } from 'lucide-react';
 
@@ -131,11 +130,13 @@ const ScrollStoryCard: React.FC<ScrollStoryProps> = ({
 interface HomePageProps {
   onNavigateToStudio: () => void;
   onNavigateToAbout: () => void;
+  onLaunchTool?: (toolId: string) => void;
 }
 
 export const HomePage: React.FC<HomePageProps> = ({
   onNavigateToStudio,
-  onNavigateToAbout: _onNavigateToAbout
+  onNavigateToAbout: _onNavigateToAbout,
+  onLaunchTool
 }) => {
   const [activeRibbon, setActiveRibbon] = useState<'ai' | 'pdf' | 'calc' | 'media' | 'dev'>('ai');
   const [openHomeFaq, setOpenHomeFaq] = useState<number | null>(0);
@@ -171,6 +172,14 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'Popular'
     },
     {
+      id: 'logo-remover',
+      tag: 'AI PHOTO & VIDEO',
+      title: 'Logo & Watermark Remover',
+      desc: 'Brush over unwanted logos, stamps, or watermarks with smart inpainting.',
+      image: '/portals/image-studio.jpg',
+      badge: 'AI Magic'
+    },
+    {
       id: 'electricity-bill',
       tag: 'SMART CALCULATOR',
       title: 'Electricity Bill Estimator',
@@ -187,7 +196,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'AI Powered'
     },
     {
-      id: 'bg-remove',
+      id: 'background-remover',
       tag: 'IMAGE LAB',
       title: 'Background Remover',
       desc: 'Instant 1-click subject extraction with 100% private offline WASM.',
@@ -195,7 +204,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'High Precision'
     },
     {
-      id: 'gpa-calc',
+      id: 'gpa-cgpa-calculator',
       tag: 'ACADEMIC',
       title: 'GPA & CGPA Calculator',
       desc: 'Calculate university semester GPAs and predict cumulative honors.',
@@ -203,7 +212,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'Students'
     },
     {
-      id: 'video-compress',
+      id: 'video-compressor',
       tag: 'VIDEO SUITE',
       title: 'Video Compressor & GIF',
       desc: 'Compress large MP4s and make animated GIFs without quality loss.',
@@ -211,7 +220,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'Zero Limit'
     },
     {
-      id: 'json-format',
+      id: 'json-formatter',
       tag: 'DEV TOOLS',
       title: 'JSON & Code Formatter',
       desc: 'Prettify JSON, minify CSS/JS, and validate schemas instantly.',
@@ -219,7 +228,7 @@ export const HomePage: React.FC<HomePageProps> = ({
       badge: 'Dev Suite'
     },
     {
-      id: 'voice-gen',
+      id: 'ai-voice-generator',
       tag: 'VOICE AI',
       title: 'AI Voice Generator (TTS)',
       desc: 'Turn scripts, articles, and notes into natural studio voices.',
@@ -280,7 +289,7 @@ export const HomePage: React.FC<HomePageProps> = ({
 
         {/* Subtitle */}
         <p className="text-slate-600 text-base sm:text-xl max-w-3xl mx-auto leading-relaxed font-normal">
-          Streamline daily tasks, convert documents, calculate bills and taxes, edit media, and code with 62+ fast, privacy-first tools — all with AI built directly in.
+          Streamline daily tasks, convert documents, calculate bills and taxes, edit media, and code with 50+ fast, privacy-first tools — all with AI built directly in.
         </p>
 
         {/* Dual Action Buttons (Zoom Style) */}
@@ -300,7 +309,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             }}
             className="px-8 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-800 font-semibold text-base transition-all cursor-pointer border border-slate-300 shadow-2xs hover:border-slate-400"
           >
-            <span>Explore All 62 Tools</span>
+            <span>Explore All 50+ Tools</span>
           </button>
         </div>
 
@@ -415,7 +424,7 @@ export const HomePage: React.FC<HomePageProps> = ({
             <span>CORE EVERYDAY TOOLS · LIVE AUTO-SHOWCASE</span>
           </div>
           <h2 className="text-2xl sm:text-4xl font-extrabold text-[#020f22] tracking-tight">
-            Explore 71+ Problem-Solving Utilities
+            Explore 50+ Problem-Solving Utilities
           </h2>
           <p className="text-sm text-slate-500 font-normal">
             Hover over any tool card to pause and explore features in real-time.
@@ -432,7 +441,13 @@ export const HomePage: React.FC<HomePageProps> = ({
             {[...movingTools, ...movingTools].map((tool, idx) => (
               <div
                 key={`${tool.id}-${idx}`}
-                onClick={onNavigateToStudio}
+                onClick={() => {
+                  if (onLaunchTool && tool.id) {
+                    onLaunchTool(tool.id);
+                  } else {
+                    onNavigateToStudio();
+                  }
+                }}
                 className="w-72 sm:w-80 rounded-2xl bg-white border border-slate-200 hover:border-[#020f22] hover:shadow-2xl transition-all duration-300 overflow-hidden flex flex-col justify-between shrink-0 group hover:-translate-y-1.5"
               >
                 {/* Big Image Preview */}
@@ -486,7 +501,7 @@ export const HomePage: React.FC<HomePageProps> = ({
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 text-center pt-2">
             <div>
-              <p className="text-3xl sm:text-5xl font-extrabold text-[#020f22]">71+</p>
+              <p className="text-3xl sm:text-5xl font-extrabold text-[#020f22]">50+</p>
               <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Built-in Daily Tools</p>
             </div>
             <div>
@@ -498,8 +513,8 @@ export const HomePage: React.FC<HomePageProps> = ({
               <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Cloud Data Retention</p>
             </div>
             <div>
-              <p className="text-3xl sm:text-5xl font-extrabold text-[#020f22]">0.0s</p>
-              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">Instant Client-Side Speed</p>
+              <p className="text-3xl sm:text-5xl font-extrabold text-[#020f22]">Fast</p>
+              <p className="text-xs sm:text-sm text-slate-600 font-medium mt-1">In-Browser Speed</p>
             </div>
           </div>
         </div>
@@ -581,7 +596,20 @@ export const HomePage: React.FC<HomePageProps> = ({
 
             <div className="pt-4">
               <button
-                onClick={onNavigateToStudio}
+                onClick={() => {
+                  const map: Record<string, string> = {
+                    ai: 'speech-to-text',
+                    pdf: 'pdf-merger',
+                    calc: 'electricity-bill',
+                    media: 'text-to-speech',
+                    dev: 'website-auditor',
+                  };
+                  if (onLaunchTool && map[activeRibbon]) {
+                    onLaunchTool(map[activeRibbon]);
+                  } else {
+                    onNavigateToStudio();
+                  }
+                }}
                 className="px-8 py-4 rounded-full bg-[#020f22] hover:bg-[#020f22]/90 text-white font-bold text-sm shadow-md transition-all flex items-center gap-2 cursor-pointer"
               >
                 <span>Launch {activeRibbon.toUpperCase()} Suite</span>
@@ -956,17 +984,17 @@ export const HomePage: React.FC<HomePageProps> = ({
         </div>
       </section>
 
-      {/* 7. ZOOM'S 3-COLUMN CUSTOMER TESTIMONIALS */}
+      {/* 7. WHY CHOOSE SIFTX - CORE PLATFORM GUARANTEES */}
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="text-center max-w-2xl mx-auto space-y-3 mb-12">
           <span className="text-xs font-bold font-mono tracking-wider text-[#0176fd] uppercase bg-sky-100/70 px-3.5 py-1 rounded-full border border-sky-200">
-            CUSTOMER TESTIMONIALS
+            WHY SIFTX
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-[#020f22] tracking-tight">
-            Loved by 300,000+ professionals worldwide
+            Built for Privacy, Precision & Everyday Utility
           </h2>
           <p className="text-slate-600 text-sm sm:text-base">
-            See how teams ditch expensive legacy subscriptions for local SiftX speed.
+            Why individuals and teams prefer lightweight local tools over bloated cloud subscriptions.
           </p>
         </div>
 
@@ -974,76 +1002,49 @@ export const HomePage: React.FC<HomePageProps> = ({
           
           <div className="rounded-3xl bg-slate-50 border border-slate-200 p-8 flex flex-col justify-between hover:shadow-lg transition-all space-y-6">
             <div className="space-y-4">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                ))}
+              <div className="w-12 h-12 rounded-2xl bg-cyan-50 border border-cyan-200 flex items-center justify-center text-cyan-600">
+                <ShieldCheck className="w-6 h-6" />
               </div>
-              <p className="text-sm text-slate-700 leading-relaxed font-medium italic">
-                "SiftX Tool replaced Adobe Acrobat and Smallpdf subscriptions across our 30-person team. Zero upload lag, 100% airtight client privacy."
+              <h3 className="font-extrabold text-lg text-[#020f22]">Client-Side In-Memory Privacy</h3>
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                PDF manipulations, canvas image operations, and mathematical calculations execute directly inside your browser memory. Your documents are never uploaded to remote ad servers.
               </p>
             </div>
-            <div className="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-              <img 
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=160&q=80" 
-                alt="Sarah Jenkins"
-                className="w-11 h-11 rounded-full object-cover border-2 border-[#01bbfd]"
-              />
-              <div>
-                <p className="font-bold text-xs text-[#020f22]">Sarah Jenkins</p>
-                <p className="text-[11px] text-slate-500">Director of Operations, NY</p>
-              </div>
+            <div className="pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-cyan-700">
+              <CheckCircle2 className="w-4 h-4 text-cyan-600" />
+              <span>Zero Document Tracking</span>
             </div>
           </div>
 
           <div className="rounded-3xl bg-white border border-[#0176fd]/40 p-8 flex flex-col justify-between shadow-md hover:shadow-xl transition-all space-y-6 relative">
-            <div className="absolute -top-3 right-6 px-3 py-0.5 rounded-full siftx-pill-btn text-white text-[10px] font-bold uppercase tracking-wider shadow-xs">
-              VERIFIED REVIEW
-            </div>
             <div className="space-y-4">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                ))}
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-center text-[#0176fd]">
+                <Zap className="w-6 h-6" />
               </div>
-              <p className="text-sm text-slate-700 leading-relaxed font-medium italic">
-                "The 2026 Pakistan Electricity Bill and GPA calculators are an absolute game changer. Accurate NEPRA slab calculations with zero guesswork!"
+              <h3 className="font-extrabold text-lg text-[#020f22]">Accurate Everyday Engines</h3>
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                From official 2026 NEPRA electricity tariff slabs (IESCO, LESCO, KE) to GPA calculators on a 4.0 scale and financial loan amortization, get instant accurate formulas with zero guesswork.
               </p>
             </div>
-            <div className="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-              <img 
-                src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=160&q=80" 
-                alt="Usman Tariq"
-                className="w-11 h-11 rounded-full object-cover border-2 border-[#0176fd]"
-              />
-              <div>
-                <p className="font-bold text-xs text-[#020f22]">Usman Tariq, CA</p>
-                <p className="text-[11px] text-slate-500">Senior Tax Consultant, Lahore</p>
-              </div>
+            <div className="pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-blue-700">
+              <CheckCircle2 className="w-4 h-4 text-[#0176fd]" />
+              <span>Official 2026 Formulas</span>
             </div>
           </div>
 
           <div className="rounded-3xl bg-slate-50 border border-slate-200 p-8 flex flex-col justify-between hover:shadow-lg transition-all space-y-6">
             <div className="space-y-4">
-              <div className="flex gap-1">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <Star key={s} className="w-4 h-4 text-amber-400 fill-amber-400" />
-                ))}
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
+                <Code2 className="w-6 h-6" />
               </div>
-              <p className="text-sm text-slate-700 leading-relaxed font-medium italic">
-                "Having developer utilities, JSON tree formatters, and Base64 encoders executing directly in browser RAM with zero server roundtrips is incredible."
+              <h3 className="font-extrabold text-lg text-[#020f22]">Developer & Power Tools</h3>
+              <p className="text-sm text-slate-600 leading-relaxed font-normal">
+                JSON formatters, Base64 converters, UUID generators, and Regex testers run instantly in RAM without round-trip latency, making repetitive development tasks seamless.
               </p>
             </div>
-            <div className="flex items-center gap-3 pt-4 border-t border-slate-200/60">
-              <img 
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80" 
-                alt="David Miller"
-                className="w-11 h-11 rounded-full object-cover border-2 border-[#01bbfd]"
-              />
-              <div>
-                <p className="font-bold text-xs text-[#020f22]">David Miller</p>
-                <p className="text-[11px] text-slate-500">Lead DevOps Engineer, SF</p>
-              </div>
+            <div className="pt-4 border-t border-slate-200/60 flex items-center gap-2 text-xs font-semibold text-purple-700">
+              <CheckCircle2 className="w-4 h-4 text-purple-600" />
+              <span>Fast In-RAM Execution</span>
             </div>
           </div>
 
@@ -1067,7 +1068,7 @@ export const HomePage: React.FC<HomePageProps> = ({
         <div className="space-y-3">
           {[
             {
-              q: 'Is SiftX really 100% free with all 62 tools unlocked?',
+              q: 'Is SiftX really 100% free with all 50+ tools unlocked?',
               a: 'Yes, every single tool in SiftX is completely free forever. There are zero credit card requirements, zero ads, zero watermarks, and zero paywalls.'
             },
             {
@@ -1116,11 +1117,11 @@ export const HomePage: React.FC<HomePageProps> = ({
           </div>
 
           <h2 className="text-3xl sm:text-6xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-tight">
-            Ready to get started? Join SiftX Tool for free today.
+            Ready to get started? Join SiftX for free today.
           </h2>
 
           <p className="text-white/75 text-base sm:text-xl max-w-2xl mx-auto leading-relaxed font-normal">
-            Access all 62 essential daily tools in one clean, private, and lightning-fast studio.
+            Access all 50+ essential daily tools in one clean, private, and lightning-fast studio.
           </p>
 
           <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
@@ -1134,7 +1135,7 @@ export const HomePage: React.FC<HomePageProps> = ({
               onClick={onNavigateToStudio}
               className="px-8 py-4 rounded-full bg-white/10 hover:bg-white/20 text-white font-bold text-base transition-all cursor-pointer border border-white/20"
             >
-              <span>View All 62 Tools</span>
+              <span>View All 50+ Tools</span>
             </button>
           </div>
         </div>

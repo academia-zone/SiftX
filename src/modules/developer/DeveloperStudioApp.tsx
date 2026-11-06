@@ -13,11 +13,48 @@ import {
 import { DEVELOPER_TOOLS, type DeveloperToolId } from './types/developerTypes';
 import { DeveloperDashboard } from './dashboard/DeveloperDashboard';
 
-// The 4 Core Useful Tools
+// All Implemented Developer Tools
 import { WebsiteAuditStudioTool } from './tools/WebsiteAuditStudioTool';
 import { TypeSchemaConverterTool } from './tools/TypeSchemaConverterTool';
 import { EnvDoctorTool } from './tools/EnvDoctorTool';
 import { AiContextOptimizerTool } from './tools/AiContextOptimizerTool';
+import { JsonFormatterTool } from './tools/JsonFormatterTool';
+import { Base64Tool } from './tools/Base64Tool';
+import { UuidPasswordTool } from './tools/UuidPasswordTool';
+import { RegexTesterTool } from './tools/RegexTesterTool';
+import { JwtInspectorTool } from './tools/JwtInspectorTool';
+import { CurlToCodeTool } from './tools/CurlToCodeTool';
+import { GitConflictResolverTool } from './tools/GitConflictResolverTool';
+import { OpenGraphPreviewerTool } from './tools/OpenGraphPreviewerTool';
+import { SvgToReactTool } from './tools/SvgToReactTool';
+
+function normalizeDevToolId(id?: string | null): DeveloperToolId {
+  if (!id) return 'website-auditor';
+  const map: Record<string, DeveloperToolId> = {
+    'website-auditor': 'website-auditor',
+    'type-schema-converter': 'type-schema-converter',
+    'env-doctor': 'env-doctor',
+    'ai-context-optimizer': 'ai-context-optimizer',
+    'json-formatter': 'json-formatter',
+    'html-formatter': 'json-formatter',
+    'css-minifier': 'json-formatter',
+    'javascript-minifier': 'json-formatter',
+    'markdown-editor': 'json-formatter',
+    'base64-encoder-decoder': 'base64',
+    'url-encoder-decoder': 'base64',
+    'base64': 'base64',
+    'uuid-generator': 'uuid-password',
+    'password-generator': 'uuid-password',
+    'uuid-password': 'uuid-password',
+    'regex-tester': 'regex-tester',
+    'jwt-inspector': 'jwt-inspector',
+    'curl-to-code': 'curl-to-code',
+    'git-conflict-resolver': 'git-conflict-resolver',
+    'opengraph-previewer': 'opengraph-previewer',
+    'svg-to-react': 'svg-to-react',
+  };
+  return map[id] || 'website-auditor';
+}
 
 const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Globe,
@@ -29,14 +66,14 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
 
 interface DeveloperStudioAppProps {
   onBackToTools?: () => void;
-  initialToolId?: DeveloperToolId;
+  initialToolId?: string;
 }
 
 export const DeveloperStudioApp: React.FC<DeveloperStudioAppProps> = ({
   onBackToTools,
   initialToolId
 }) => {
-  const [activeToolId, setActiveToolId] = useState<DeveloperToolId | null>(initialToolId || 'website-auditor');
+  const [activeToolId, setActiveToolId] = useState<DeveloperToolId | null>(normalizeDevToolId(initialToolId));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const activeTool = DEVELOPER_TOOLS.find((t) => t.id === activeToolId);
@@ -51,6 +88,24 @@ export const DeveloperStudioApp: React.FC<DeveloperStudioAppProps> = ({
         return <EnvDoctorTool />;
       case 'ai-context-optimizer':
         return <AiContextOptimizerTool />;
+      case 'json-formatter':
+        return <JsonFormatterTool />;
+      case 'base64':
+        return <Base64Tool />;
+      case 'uuid-password':
+        return <UuidPasswordTool />;
+      case 'regex-tester':
+        return <RegexTesterTool />;
+      case 'jwt-inspector':
+        return <JwtInspectorTool />;
+      case 'curl-to-code':
+        return <CurlToCodeTool />;
+      case 'git-conflict-resolver':
+        return <GitConflictResolverTool />;
+      case 'opengraph-previewer':
+        return <OpenGraphPreviewerTool />;
+      case 'svg-to-react':
+        return <SvgToReactTool />;
       default:
         return <WebsiteAuditStudioTool />;
     }

@@ -90,16 +90,16 @@ export const VideoToMp3Tool: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h1 className="text-2xl font-bold text-gray-900">Video to MP3 & Audio</h1>
+                <h1 className="text-2xl font-bold text-gray-900">Video to Audio Extractor</h1>
                 <span className="text-sm font-urdu font-medium text-indigo-700 bg-indigo-50 px-3 py-0.5 rounded-full border border-indigo-200">
                   ویڈیو سے آڈیو نکالیں
                 </span>
                 <span className="text-[11px] font-bold uppercase tracking-wider bg-indigo-100 text-indigo-800 px-2 py-0.5 rounded-full">
-                  320 kbps Lossless
+                  Lossless WAV
                 </span>
               </div>
               <p className="text-sm text-gray-500 mt-1">
-                Extract pure crystal-clear soundtrack from MP4, WebM, and MKV videos. 100% private in browser.
+                Extract pure crystal-clear uncompressed WAV audio soundtrack from MP4, WebM, and MKV videos. 100% private in browser.
               </p>
             </div>
           </div>

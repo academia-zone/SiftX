@@ -41,6 +41,10 @@ export function AppContent() {
         }
       }
 
+      if (path.startsWith('/tool-studio')) return { page: 'tool-studio', landingTool: null, studioTool: null };
+      if (path.startsWith('/about')) return { page: 'about', landingTool: null, studioTool: null };
+      if (path.startsWith('/features')) return { page: 'features', landingTool: null, studioTool: null };
+      if (path.startsWith('/contact')) return { page: 'contact', landingTool: null, studioTool: null };
       if (path.startsWith('/audio')) return { page: 'audio-studio', landingTool: null, studioTool: null };
       if (path.startsWith('/calculators')) return { page: 'calculators-studio', landingTool: null, studioTool: null };
       if (path.startsWith('/pdf')) return { page: 'pdf-studio', landingTool: null, studioTool: null };
@@ -251,7 +255,7 @@ export function AppContent() {
       <Navbar
         currentPage={currentPage}
         setCurrentPage={(page) => {
-          if (page === 'home' || page === 'tool-studio' || page === 'about') {
+          if (page === 'home' || page === 'tool-studio' || page === 'about' || page === 'features' || page === 'contact') {
             window.history.pushState(null, '', page === 'home' ? '/' : `/${page}`);
           }
           setCurrentPage(page);
@@ -280,10 +284,14 @@ export function AppContent() {
         {currentPage === 'home' && (
           <HomePage
             onNavigateToStudio={() => {
-              window.history.pushState(null, '', '/audio');
-              setCurrentPage('audio-studio');
+              window.history.pushState(null, '', '/tool-studio');
+              setCurrentPage('tool-studio');
             }}
-            onNavigateToAbout={() => setCurrentPage('about')}
+            onNavigateToAbout={() => {
+              window.history.pushState(null, '', '/about');
+              setCurrentPage('about');
+            }}
+            onLaunchTool={(toolId) => launchToolInStudio(toolId)}
           />
         )}
 
@@ -331,7 +339,12 @@ export function AppContent() {
       </main>
 
       {/* Zoom-style Enterprise Footer */}
-      <Footer onNavigate={(page) => setCurrentPage(page)} />
+      <Footer onNavigate={(page) => {
+        if (page === 'home' || page === 'tool-studio' || page === 'about' || page === 'features' || page === 'contact') {
+          window.history.pushState(null, '', page === 'home' ? '/' : `/${page}`);
+        }
+        setCurrentPage(page);
+      }} />
 
       {/* Floating Cross-Tool Workspace Tray */}
       <WorkspaceTray onNavigateToTool={(toolId) => launchToolInStudio(toolId)} />

@@ -48,8 +48,40 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   DollarSign,
 };
 
+function normalizeCalculatorId(id?: string): CalculatorToolId | 'dashboard' {
+  if (!id || id === 'dashboard') return 'dashboard';
+  const map: Record<string, CalculatorToolId> = {
+    'electricity-bill-calculator': 'electricity-bill',
+    'electricity-bill': 'electricity-bill',
+    'gpa-cgpa-calculator': 'gpa-cgpa',
+    'gpa-cgpa': 'gpa-cgpa',
+    'loan-calculator': 'loan-mortgage',
+    'mortgage-calculator': 'loan-mortgage',
+    'loan-mortgage': 'loan-mortgage',
+    'scientific-calculator': 'scientific',
+    'scientific': 'scientific',
+    'percentage-calculator': 'percentage',
+    'percentage': 'percentage',
+    'age-calculator': 'age-date',
+    'date-calculator': 'age-date',
+    'age-date': 'age-date',
+    'discount-calculator': 'discount',
+    'discount': 'discount',
+    'bmi-calculator': 'bmi',
+    'bmi': 'bmi',
+    'gst-calculator': 'gst-tax',
+    'gst-tax': 'gst-tax',
+    'profit-loss-calculator': 'profit-loss',
+    'profit-loss': 'profit-loss',
+    'unit-converter': 'unit-converter',
+    'currency-calculator': 'currency',
+    'currency': 'currency',
+  };
+  return map[id] || 'dashboard';
+}
+
 interface CalculatorsStudioAppProps {
-  initialToolId?: CalculatorToolId | 'dashboard';
+  initialToolId?: string;
   onExitToMain: () => void;
 }
 
@@ -57,7 +89,7 @@ export const CalculatorsStudioApp: React.FC<CalculatorsStudioAppProps> = ({
   initialToolId = 'dashboard',
   onExitToMain,
 }) => {
-  const [currentView, setCurrentView] = useState<CalculatorToolId | 'dashboard'>(initialToolId);
+  const [currentView, setCurrentView] = useState<CalculatorToolId | 'dashboard'>(normalizeCalculatorId(initialToolId));
 
   const activeToolMeta = CALCULATOR_TOOLS.find((t) => t.id === currentView);
   const ActiveIcon = activeToolMeta ? (ICON_MAP[activeToolMeta.iconName] || Calculator) : Calculator;
@@ -88,8 +120,9 @@ export const CalculatorsStudioApp: React.FC<CalculatorsStudioAppProps> = ({
         return <UnitConverter />;
       case 'currency':
         return <CurrencyCalculator />;
+      case 'dashboard':
       default:
-        return <ElectricityBillCalculator />;
+        return <CalculatorsDashboard onSelectTool={(id) => setCurrentView(id)} />;
     }
   };
 

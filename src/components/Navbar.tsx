@@ -332,7 +332,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                       onClick={() => setShowLoginModal(false)}
                       className="text-xs text-slate-500 hover:text-[#0176fd] font-medium underline cursor-pointer"
                     >
-                      Skip & use all 62 tools as guest (100% Free)
+                      Continue as guest (100% Free - All 50+ Tools)
                     </button>
                   </div>
                 </>

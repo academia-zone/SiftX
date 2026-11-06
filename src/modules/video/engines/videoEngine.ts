@@ -337,6 +337,57 @@ export async function trimVideo(
 /**
  * Compress video to target bitrate / resolution
  */
+function attachAudioToCanvasStream(
+  video: HTMLVideoElement, 
+  canvasStream: MediaStream
+): { stream: MediaStream; cleanup: () => void } {
+  try {
+    const videoStream = (video as any).captureStream 
+      ? (video as any).captureStream() 
+      : ((video as any).mozCaptureStream ? (video as any).mozCaptureStream() : null);
+    if (videoStream) {
+      const audioTracks = videoStream.getAudioTracks();
+      if (audioTracks.length > 0) {
+        const combined = new MediaStream([
+          ...canvasStream.getVideoTracks(),
+          ...audioTracks
+        ]);
+        return { stream: combined, cleanup: () => {} };
+      }
+    }
+  } catch {
+    // ignore
+  }
+
+  try {
+    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    if (AudioContextClass) {
+      const audioCtx = new AudioContextClass();
+      const source = audioCtx.createMediaElementSource(video);
+      const dest = audioCtx.createMediaStreamDestination();
+      source.connect(dest);
+      source.connect(audioCtx.destination);
+      const audioTracks = dest.stream.getAudioTracks();
+      if (audioTracks.length > 0) {
+        const combined = new MediaStream([
+          ...canvasStream.getVideoTracks(),
+          ...audioTracks
+        ]);
+        return {
+          stream: combined,
+          cleanup: () => {
+            try { audioCtx.close(); } catch {}
+          }
+        };
+      }
+    }
+  } catch (err) {
+    console.warn('Audio capture fallback error', err);
+  }
+
+  return { stream: canvasStream, cleanup: () => {} };
+}
+
 export async function compressVideo(
   file: File,
   targetBitrateKbps: number = 1000,
@@ -357,8 +408,9 @@ export async function compressVideo(
 
       const mimeType = getSupportedVideoMimeType();
       const canvasStream = canvas.captureStream(24);
+      const { stream: combinedStream, cleanup: cleanupAudio } = attachAudioToCanvasStream(video, canvasStream);
 
-      const recorder = new MediaRecorder(canvasStream, {
+      const recorder = new MediaRecorder(combinedStream, {
         mimeType,
         videoBitsPerSecond: targetBitrateKbps * 1000,
       });
@@ -370,6 +422,7 @@ export async function compressVideo(
       };
 
       recorder.onstop = () => {
+        cleanupAudio();
         const outputBlob = new Blob(chunks, { type: mimeType });
         const outputUrl = URL.createObjectURL(outputBlob);
         URL.revokeObjectURL(url);
@@ -430,8 +483,9 @@ export async function resizeVideo(
 
       const mimeType = getSupportedVideoMimeType();
       const canvasStream = canvas.captureStream(30);
+      const { stream: combinedStream, cleanup: cleanupAudio } = attachAudioToCanvasStream(video, canvasStream);
 
-      const recorder = new MediaRecorder(canvasStream, { mimeType });
+      const recorder = new MediaRecorder(combinedStream, { mimeType });
       const chunks: Blob[] = [];
 
       recorder.ondataavailable = (e) => {
@@ -439,6 +493,7 @@ export async function resizeVideo(
       };
 
       recorder.onstop = () => {
+        cleanupAudio();
         const outputBlob = new Blob(chunks, { type: mimeType });
         const outputUrl = URL.createObjectURL(outputBlob);
         URL.revokeObjectURL(url);

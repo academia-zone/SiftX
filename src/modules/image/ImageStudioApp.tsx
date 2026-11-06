@@ -45,16 +45,37 @@ const ICON_MAP: Record<string, React.FC<{ className?: string }>> = {
   Stamp,
 };
 
+function normalizeImageToolId(id?: string | null): ImageToolId | null {
+  if (!id) return null;
+  const map: Record<string, ImageToolId> = {
+    'background-remover': 'bg-remover',
+    'bg-remover': 'bg-remover',
+    'image-format-converter': 'image-converter',
+    'image-converter': 'image-converter',
+    'image-to-text-ocr': 'image-ocr',
+    'image-ocr': 'image-ocr',
+    'qr-code-generator': 'qr-generator',
+    'qr-generator': 'qr-generator',
+    'image-compressor': 'image-compressor',
+    'image-resizer': 'image-resizer',
+    'image-cropper': 'image-cropper',
+    'image-upscaler': 'image-upscaler',
+    'color-picker': 'color-picker',
+    'image-watermark': 'image-watermark',
+  };
+  return map[id] || null;
+}
+
 interface ImageStudioAppProps {
   onBackToTools?: () => void;
-  initialToolId?: ImageToolId;
+  initialToolId?: string | null;
 }
 
 export const ImageStudioApp: React.FC<ImageStudioAppProps> = ({
   onBackToTools,
   initialToolId,
 }) => {
-  const [activeToolId, setActiveToolId] = useState<ImageToolId | null>(initialToolId || null);
+  const [activeToolId, setActiveToolId] = useState<ImageToolId | null>(normalizeImageToolId(initialToolId));
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const activeTool = IMAGE_TOOLS.find((t) => t.id === activeToolId);
@@ -82,7 +103,7 @@ export const ImageStudioApp: React.FC<ImageStudioAppProps> = ({
       case 'image-watermark':
         return <ImageWatermarkTool />;
       default:
-        return null;
+        return <ImageDashboard onSelectTool={(toolId) => setActiveToolId(toolId)} />;
     }
   };
 

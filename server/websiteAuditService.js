@@ -5,6 +5,48 @@ import http from 'http';
  * Crawls live websites, evaluates SEO, Security, Performance & Tech Stack
  */
 
+function isSafeAuditUrl(targetUrl) {
+  const protocol = targetUrl.protocol.toLowerCase();
+  if (protocol !== 'http:' && protocol !== 'https:') {
+    return false;
+  }
+  const hostname = targetUrl.hostname.toLowerCase();
+
+  // Block localhost, loopback, and local network names
+  if (
+    hostname === 'localhost' ||
+    hostname === '127.0.0.1' ||
+    hostname === '::1' ||
+    hostname === '0.0.0.0' ||
+    hostname.endsWith('.localhost') ||
+    hostname.endsWith('.local') ||
+    hostname.endsWith('.internal')
+  ) {
+    return false;
+  }
+
+  // Block Cloud Metadata IP
+  if (hostname === '169.254.169.254') {
+    return false;
+  }
+
+  // Block private IPv4 ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16, 127.0.0.0/8, 169.254.0.0/16
+  const ipv4Regex = /^(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})$/;
+  const match = hostname.match(ipv4Regex);
+  if (match) {
+    const p1 = parseInt(match[1], 10);
+    const p2 = parseInt(match[2], 10);
+    if (p1 === 10) return false;
+    if (p1 === 127) return false;
+    if (p1 === 169 && p2 === 254) return false;
+    if (p1 === 192 && p2 === 168) return false;
+    if (p1 === 172 && p2 >= 16 && p2 <= 31) return false;
+    if (p1 === 0) return false;
+  }
+
+  return true;
+}
+
 export async function handleAuditWebsiteRequest(req, res) {
   // Enable CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -58,6 +100,15 @@ export async function handleAuditWebsiteRequest(req, res) {
 
   try {
     const targetUrl = new URL(rawUrl);
+    if (!isSafeAuditUrl(targetUrl)) {
+      res.statusCode = 400;
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify({
+        error: 'Invalid or restricted website URL. Scanning internal, private or localhost network addresses is strictly prohibited.'
+      }));
+      return;
+    }
+
     const auditResult = await performDeepWebsiteAudit(targetUrl.toString());
 
     res.statusCode = 200;
@@ -96,6 +147,9 @@ export async function performDeepWebsiteAudit(url) {
 
   const responseTimeMs = Date.now() - startTime;
   const finalUrl = response.url || url;
+  if (!isSafeAuditUrl(new URL(finalUrl))) {
+    throw new Error('Target website redirected to an unauthorized or internal address.');
+  }
   const statusCode = response.status;
   const isHttps = finalUrl.startsWith('https://');
 

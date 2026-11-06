@@ -74,9 +74,12 @@ export async function generateAIVoice(
   const isUrdu = isUrduOrArabicScript(script);
   const langCode = isUrdu ? 'ur' : persona.lang || 'en';
 
-  // Request actual spoken speech audio from our high-fidelity endpoint
-  const encodedText = encodeURIComponent(script.slice(0, 200));
-  const url = `/api/tts?q=${encodedText}&tl=${langCode}`;
+  // Request actual spoken speech audio from our high-fidelity endpoint (up to 2000 chars)
+  const cleanScript = script.trim();
+  const targetScript = cleanScript.length > 2000 ? cleanScript.slice(0, 2000) : cleanScript;
+  const encodedText = encodeURIComponent(targetScript);
+  const voiceParam = persona.gender === 'female' ? (isUrdu ? 'uzma' : 'jenny') : (isUrdu ? 'asaraf' : 'guy');
+  const url = `/api/tts?q=${encodedText}&voice=${voiceParam}&tl=${langCode}`;
 
   try {
     const res = await fetch(url);
