@@ -53,6 +53,25 @@ const server = http.createServer((req, res) => {
   const pathname = urlObj.pathname;
 
   // 1. API ROUTES
+  if (pathname === '/api/health') {
+    res.statusCode = 200;
+    res.setHeader('Content-Type', 'application/json');
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.end(JSON.stringify({
+      success: true,
+      platform: 'SiftX Universal Toolkit',
+      runtime: 'Local Node.js Server',
+      status: 'operational',
+      timestamp: new Date().toISOString(),
+      providers: {
+        geminiTts: Boolean(env.GEMINI_API_KEY || process.env.GEMINI_API_KEY) ? 'ready' : 'missing_key',
+        groqWhisperStt: Boolean(env.GROQ_API_KEY || process.env.GROQ_API_KEY) ? 'ready' : 'missing_key',
+        fishAudio: Boolean(env.FISH_AUDIO_API_KEY || process.env.FISH_AUDIO_API_KEY) ? 'ready' : 'missing_key'
+      }
+    }));
+    return;
+  }
+
   if (pathname === '/api/tts') {
     handleTtsRequest(req, res, env);
     return;
